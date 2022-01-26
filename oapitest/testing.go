@@ -1,3 +1,41 @@
+/*
+Simple library for testing API requests and responses against
+an OpenAPI specification.
+
+	import "github.com/ringsq/oapi-utils/oapitest"
+
+	// Get the OpenAPI spec
+	spec := GetSpec()
+
+	// setup example response struct
+	circuits := &models.GetSearchResponse{}
+	gofakeit.Struct(circuits)
+
+	// Create the HTTP handler
+	server := getServer()
+
+	// use a mock DB instance
+	db := new(modelsfakes.FakeDBOperations)
+	server.db = db
+
+	cfg := oapitest.GetOapiTester(spec, server)
+
+	// set the mock DB instance results
+	db.SearchCircuitsReturnsOnCall(0, *circuits, fmt.Errorf("err1"))
+	db.SearchCircuitsReturnsOnCall(1, *circuits, nil)
+
+	for i := 0; i < 2; i++ {
+			req := &oapitest.OapiRequest{Method: "GET", Path: "/search?page=1&per_page=1&vendor=r"}
+			response, err := cfg.ValidateAPI(t, req)
+			if err != nil {
+					require.Fail(t, err.Error())
+			}
+			log.Info("testing ", i)
+			log.Info("status", response.Code)
+	}
+
+
+*/
 package oapitest
 
 import (
