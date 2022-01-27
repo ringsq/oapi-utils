@@ -6,7 +6,8 @@
 import "github.com/ringsq/oapi-utils/oapitest"
 ```
 
-Simple library for testing API requests and responses against an OpenAPI specification\.
+Simple library for testing API requests and responses against an OpenAPI specification.  The example below uses a
+mock DB interface created with https://github.com/maxbrunsfeld/counterfeiter.
 
 ```
 import "github.com/ringsq/oapi-utils/oapitest"
