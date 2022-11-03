@@ -124,12 +124,14 @@ func (tc *oapiTester) ValidateAPI(t *testing.T, req *OapiRequest) (*httptest.Res
 		Header:                 http.Header{"Content-Type": []string{"application/json"}},
 		Options:                &openapi3filter.Options{IncludeResponseStatus: !req.SkipStatus},
 	}
-	responseValidationInput.SetBodyBytes(response.Body.Bytes())
-	// Validate response.
-	if err := openapi3filter.ValidateResponse(ctx, responseValidationInput); err != nil {
-		t.Error(err)
-		t.Errorf("ResponseBody: %v", response.Body)
-		return response, err
+	if response.Body != nil {
+		responseValidationInput.SetBodyBytes(response.Body.Bytes())
+		// Validate response.
+		if err := openapi3filter.ValidateResponse(ctx, responseValidationInput); err != nil {
+			t.Error(err)
+			t.Errorf("ResponseBody: %v", response.Body)
+			return response, err
+		}
 	}
 	return response, nil
 }
