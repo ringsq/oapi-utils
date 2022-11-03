@@ -125,12 +125,14 @@ func (tc *oapiTester) ValidateAPI(t *testing.T, req *OapiRequest) (*httptest.Res
 		Options:                &openapi3filter.Options{IncludeResponseStatus: !req.SkipStatus},
 	}
 	if response.Body != nil {
-		responseValidationInput.SetBodyBytes(response.Body.Bytes())
-		// Validate response.
-		if err := openapi3filter.ValidateResponse(ctx, responseValidationInput); err != nil {
-			t.Error(err)
-			t.Errorf("ResponseBody: %v", response.Body)
-			return response, err
+		if len(response.Body.Bytes()) > 0 {
+			responseValidationInput.SetBodyBytes(response.Body.Bytes())
+			// Validate response.
+			if err := openapi3filter.ValidateResponse(ctx, responseValidationInput); err != nil {
+				t.Error(err)
+				t.Errorf("ResponseBody: %v", response.Body)
+				return response, err
+			}
 		}
 	}
 	return response, nil
